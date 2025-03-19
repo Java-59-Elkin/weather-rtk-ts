@@ -1,9 +1,14 @@
-import {useAppSelector} from "../app/hooks.ts";
-import {useGetWeatherByCityQuery} from "../features/api/weatherApi.ts";
+import { useAppSelector } from "../app/hooks.ts";
+import { useGetWeatherByCityQuery } from "../features/api/weatherApi.ts";
 
 const Weather = () => {
-    const city = useAppSelector(state => state.city);
-    const {data, error, isLoading} = useGetWeatherByCityQuery(city);
+    const city = useAppSelector(state => state.city.city);
+    const timestamp = useAppSelector(state => state.city.timestamp);
+
+    const { data, error, isLoading } = useGetWeatherByCityQuery(
+        { city, timestamp },
+        { refetchOnMountOrArgChange: true }
+    );
 
     if (!city) {
         return <div className={'infoWeath'}>Enter city name</div>
