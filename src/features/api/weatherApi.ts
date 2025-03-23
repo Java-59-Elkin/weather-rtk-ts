@@ -6,9 +6,9 @@ export const weatherApi = createApi({
     reducerPath: 'weatherApi',
     baseQuery: fetchBaseQuery({ baseUrl: base_url }),
     endpoints: builder => ({
-        getWeatherByCity: builder.query<WeatherInfo, { city: string; timestamp: number }>({
-            query: ({ city, timestamp}) => `?q=${encodeURIComponent(city)}&appid=${api_key}&units=metric`,
-            // keepUnusedDataFor: 20,
+        getWeatherByCity: builder.query<WeatherInfo, string>({
+            query: (city) => `?q=${encodeURIComponent(city)}&appid=${api_key}&units=metric`,
+            keepUnusedDataFor: 20,
             transformResponse: (data: WeatherInfoResponse) => ({
                 city: data.name,
                 temp: data.main.temp,

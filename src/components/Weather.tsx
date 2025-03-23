@@ -3,10 +3,10 @@ import { useGetWeatherByCityQuery } from "../features/api/weatherApi.ts";
 
 const Weather = () => {
     const city = useAppSelector(state => state.city.city);
-    const timestamp = useAppSelector(state => state.city.timestamp);
+    // const timestamp = useAppSelector(state => state.city.timestamp);
 
-    const { data, error, isLoading } = useGetWeatherByCityQuery(
-        { city, timestamp },
+    const { data, error, isLoading, } = useGetWeatherByCityQuery(
+        city,
         { refetchOnMountOrArgChange: true }
     );
 
