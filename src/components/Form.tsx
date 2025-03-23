@@ -1,9 +1,11 @@
-import { useAppDispatch } from "../app/hooks.ts";
+import { useAppDispatch, useAppSelector } from "../app/hooks.ts";
 import { FormEvent } from "react";
-import { setCity, updateTimestamp } from "../features/slices/citySlice.ts";
+import { setCity } from "../features/slices/citySlice.ts";
 
 const Form = () => {
     const dispatch = useAppDispatch();
+    const currentCity = useAppSelector(state => state.city.city);
+    const currentTimeStamp = useAppSelector(state => state.city.timestamp);
 
     const handleClickGetWeather = (e: FormEvent<HTMLFormElement>) => {
         e.preventDefault();
@@ -11,11 +13,17 @@ const Form = () => {
         if (!inputElement) return;
 
         const city = inputElement.value.trim();
+        const timestamp = Date.now();
         if (!city) return; // Проверяем, что строка не пустая
 
-        console.log("Setting city:", city);
-        dispatch(setCity(city)); // Устанавливаем город
-        setTimeout(() => dispatch(updateTimestamp()), 50); // Обновляем timestamp с задержкой
+        console.log("Entered city:", city);
+
+        if ((city !== currentCity) || ((timestamp - currentTimeStamp) / 1000 > 10)) {
+            console.log("City changed, updating...");
+            dispatch(setCity(city)); // Обновляем город → новый запрос
+        } else {
+            console.log("Same city, waiting for cache expiration...");
+        }
 
         inputElement.value = ''; // Очищаем поле ввода
     };

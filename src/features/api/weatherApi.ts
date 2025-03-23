@@ -7,7 +7,7 @@ export const weatherApi = createApi({
     baseQuery: fetchBaseQuery({ baseUrl: base_url }),
     endpoints: builder => ({
         getWeatherByCity: builder.query<WeatherInfo, { city: string; timestamp: number }>({
-            query: ({ city}) => `?q=${encodeURIComponent(city)}&appid=${api_key}&units=metric`,
+            query: ({ city, timestamp}) => `?q=${encodeURIComponent(city)}&appid=${api_key}&units=metric`,
             // keepUnusedDataFor: 20,
             transformResponse: (data: WeatherInfoResponse) => ({
                 city: data.name,
@@ -21,4 +21,3 @@ export const weatherApi = createApi({
 })
 
 export const { useGetWeatherByCityQuery } = weatherApi;
-
